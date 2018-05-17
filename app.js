@@ -2,7 +2,15 @@
 var budgetController = (function() {})();
 
 // UI Controller
-var UIController = (function() {})();
+var UIController = (function() {
+  return {
+    getinput: function() {
+      var type = document.querySelector(".add__type").value; // Value = inc || exp
+      var description = document.querySelector(".add__description").value;
+      var value = document.querySelector(".add__value").value;
+    }
+  };
+})();
 
 // Global App Controller
 var controller = (function(budgetCtrl, UICtrl) {
