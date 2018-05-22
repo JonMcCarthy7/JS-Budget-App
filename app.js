@@ -1,12 +1,12 @@
 // Budget Controller
-var budgetController = (function() {
-  var Expense = function(id, description, value) {
+var budgetController = (function () {
+  var Expense = function (id, description, value) {
     this.id = id;
     this.description = description;
     this.value = value;
   };
 
-  var Income = function(id, description, value) {
+  var Income = function (id, description, value) {
     this.id = id;
     this.description = description;
     this.value = value;
@@ -24,7 +24,7 @@ var budgetController = (function() {
   };
 
   return {
-    addItem: function(type, des, val) {
+    addItem: function (type, des, val) {
       var newItem, ID;
       // Create new ID
       if (data.allItems[type] > 0) {
@@ -45,14 +45,14 @@ var budgetController = (function() {
       return newItem;
     },
 
-    testing: function() {
+    testing: function () {
       console.log(data);
     }
   };
 })();
 
 // UI Controller
-var UIController = (function() {
+var UIController = (function () {
   var DOMstrings = {
     inputType: ".add__type",
     inputDescription: ".add__description",
@@ -63,18 +63,18 @@ var UIController = (function() {
   };
 
   return {
-    getInput: function() {
+    getInput: function () {
       return {
         type: document.querySelector(DOMstrings.inputType).value, // Value = inc || exp
         description: document.querySelector(DOMstrings.inputDescription).value,
-        value: document.querySelector(DOMstrings.inputValue).value
+        value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
       };
     },
-    getDOMstrings: function() {
+    getDOMstrings: function () {
       return DOMstrings;
     },
 
-    addListItem: function(obj, type) {
+    addListItem: function (obj, type) {
       var html, newHtml, element;
 
       // Create HTML strings with placeholder text
@@ -89,7 +89,7 @@ var UIController = (function() {
         <div class="right clearfix"> <div class="item__value">- %value%</div> <div class="item__percentage">21%</div><div class="item__delete">
         <button class="item__delete--btn"> <i class="ion-ios-close-outline" /></button></div></div></div>`;
       }
-      // Replace the placeholder tex with soem actual data
+      // Replace the placeholder tex with some actual data
       newHtml = html.replace("%id%", obj.id);
       newHtml = newHtml.replace("%description%", obj.description);
       newHtml = newHtml.replace("%value%", obj.value);
@@ -98,14 +98,14 @@ var UIController = (function() {
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
     },
 
-    clearFields: function() {
+    clearFields: function () {
       var fields, fieldsArr;
       fields = document.querySelectorAll(
         DOMstrings.inputDescription + ", " + DOMstrings.inputValue
       );
       fieldsArr = Array.prototype.slice.call(fields);
 
-      fieldsArr.forEach(function(current, index, array) {
+      fieldsArr.forEach(function (current, index, array) {
         current.value = "";
       });
 
@@ -115,19 +115,27 @@ var UIController = (function() {
 })();
 
 // Global App Controller
-var controller = (function(budgetCtrl, UICtrl) {
-  var setupEventListeners = function() {
+var controller = (function (budgetCtrl, UICtrl) {
+  var setupEventListeners = function () {
     var DOM = UICtrl.getDOMstrings();
 
     document.querySelector(DOM.inputBtn).addEventListener("click", ctrlAddItem);
 
-    document.addEventListener("keypress", function(evenet) {
+    document.addEventListener("keypress", function (evenet) {
       if (event.keyCode === 13 || event.which === 13) {
         ctrlAddItem();
       }
     });
   };
-  var ctrlAddItem = function() {
+
+  var updateBudget = function () {
+    // 1. Calculate the budget
+    // 2. Return the budget
+    // 3. Display the budget on the UI
+  }
+
+
+  var ctrlAddItem = function () {
     var input, newItem;
     // 1. Get the field input data
     input = UICtrl.getInput();
@@ -137,12 +145,12 @@ var controller = (function(budgetCtrl, UICtrl) {
     UICtrl.addListItem(newItem, input.type);
     // 4. Clear the fields
     UICtrl.clearFields();
-    // 5. Calculate the budget
-    // 6. Display the budget on the UI
+    // 5. Calculate and Update budget
+
   };
 
   return {
-    init: function() {
+    init: function () {
       setupEventListeners();
     }
   };
